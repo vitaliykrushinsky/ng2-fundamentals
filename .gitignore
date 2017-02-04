@@ -3,5 +3,7 @@ typings
 /app/**/*.js
 /app/**/*.map
 .vscode/
+debug.log
+readme.txt
 
 
