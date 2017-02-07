@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+// Interface
+import { IEvent } from './shared/event.model';
 
 @Component({
   selector: 'event-thumbnail',
@@ -31,7 +33,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core'
   `]
 })
 export class EventThumbnailComponent {
-  @Input() event: any;
+  @Input() event: IEvent;
   someProperty: any = "text from child component";
   // @Output() eventClick = new EventEmitter();
   

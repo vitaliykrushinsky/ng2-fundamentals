@@ -1,6 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { BrowserModule  } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { HttpModule } from '@angular/http';
 
 // components
@@ -9,6 +10,7 @@ import { EventsListComponent } from './events/events-list.component';
 import { EventThumbnailComponent } from './events/event-thumbnail.component';
 import { EventDetailsComponent } from './events/event-details/event-details.component';
 import { CreateEventComponent } from './events/create-event.component';
+import { CreateSessionComponent } from './events/event-details/create-session.component';
 
 // OR
 // import {
@@ -17,6 +19,7 @@ import { CreateEventComponent } from './events/create-event.component';
 //     EventThumbnailComponent,
 //     EventDetailsComponent,
 //     CreateEventComponent,
+//     CreateSessionComponent
 //     // services
 //     EventService,
 //     EventRouteActivator,
@@ -30,6 +33,7 @@ import { Error404Component } from './errors/404.component';
 import { EventService } from './events/shared/event.service';
 import { EventRouteActivator } from './events/event-details/event-route-activator.service';
 import { EventListResolver } from './events/events-list-resolver.service';
+import { AuthService } from './user/auth.service';
 
 // 3-rd party services
 import { ToastrService } from './common/toastr.service';
@@ -42,7 +46,9 @@ import { appRoutes } from './routes';
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule.forRoot(appRoutes)
+        RouterModule.forRoot(appRoutes),
+        FormsModule,
+        ReactiveFormsModule
         // HttpModule
     
         // AppRoutingModule,
@@ -54,7 +60,8 @@ import { appRoutes } from './routes';
         NavBarComponent,
         EventDetailsComponent,
         CreateEventComponent,
-        Error404Component
+        Error404Component,
+        CreateSessionComponent
     ],
     providers: [
         EventService,
@@ -62,7 +69,8 @@ import { appRoutes } from './routes';
         EventRouteActivator,
         // long form need to provide function to use
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
-        EventListResolver
+        EventListResolver,
+        AuthService
     ],
     bootstrap: [EventsAppComponent],
 })

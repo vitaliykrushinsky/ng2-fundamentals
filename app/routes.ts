@@ -5,17 +5,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { EventRouteActivator } from './events/event-details/event-route-activator.service';
 // Resolver
 import { EventListResolver } from './events/events-list-resolver.service';
-
+// Components
 import { EventsListComponent } from './events/events-list.component';
 import { EventDetailsComponent } from './events/event-details/event-details.component';
 import { CreateEventComponent } from './events/create-event.component';
+import { CreateSessionComponent } from './events/event-details/create-session.component';
 
 // import {
 //     EventRouteActivator,
 //     EventListResolver,
 //     EventsListComponent,
 //     EventDetailsComponent,
-//     CreateEventComponent
+//     CreateEventComponent,
+//     CreateSessionComponent
 //  } from './events/index';
 
 import { Error404Component } from './errors/404.component';
@@ -26,6 +28,7 @@ export const appRoutes: Routes = [
     { path: 'events', component: EventsListComponent, resolve: { events: EventListResolver } },
     // /events/1; // using Guard service  
     { path: 'events/:id', component: EventDetailsComponent, canActivate: [EventRouteActivator] },
+    { path: 'events/session/new', component: CreateSessionComponent },
     { path: '404', component: Error404Component },
     { path: '', redirectTo: '/events', pathMatch: 'full' },
     // load UserModule when route start with path: 'user'
