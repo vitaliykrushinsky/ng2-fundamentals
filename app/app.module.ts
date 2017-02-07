@@ -11,6 +11,7 @@ import { EventThumbnailComponent } from './events/event-thumbnail.component';
 import { EventDetailsComponent } from './events/event-details/event-details.component';
 import { CreateEventComponent } from './events/create-event.component';
 import { CreateSessionComponent } from './events/event-details/create-session.component';
+import { SessionListComponent } from './events/event-details/session-list.component';
 
 // OR
 // import {
@@ -19,7 +20,8 @@ import { CreateSessionComponent } from './events/event-details/create-session.co
 //     EventThumbnailComponent,
 //     EventDetailsComponent,
 //     CreateEventComponent,
-//     CreateSessionComponent
+//     CreateSessionComponent,
+//     SessionListComponent
 //     // services
 //     EventService,
 //     EventRouteActivator,
@@ -61,7 +63,8 @@ import { appRoutes } from './routes';
         EventDetailsComponent,
         CreateEventComponent,
         Error404Component,
-        CreateSessionComponent
+        CreateSessionComponent,
+        SessionListComponent
     ],
     providers: [
         EventService,

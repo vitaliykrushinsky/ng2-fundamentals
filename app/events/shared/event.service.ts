@@ -30,6 +30,14 @@ export class EventService {
       event.session = [];
       EVENTS.push(event);
     }
+  
+    updateEvent(event) {
+      const foundIndex = EVENTS.findIndex(function (item) {
+        return item.id === event.id;
+      });
+      // replace old event with new event
+      EVENTS[foundIndex] = event;
+    }
 }
 
 const EVENTS: IEvent[] = [
