@@ -43,12 +43,14 @@ import { AuthService } from './user/auth.service';
 import { DurationPipe } from './events/shared/duration.pipe';
 
 // 3-rd party services
-import { ToastrService } from './common/toastr.service';
+import { TOASTR_TOKEN, Toastr } from './common/toastr.service';
 
 // Routes
 import { appRoutes } from './routes';
 
 // import { AppRoutingModule } from './app.routing'; //TODO: Create app.routing
+
+declare let toastr:Toastr // tell tsc commpile that this object on global scope
 
 @NgModule({
     imports: [
@@ -75,8 +77,10 @@ import { appRoutes } from './routes';
     ],
     providers: [
         EventService,
-        ToastrService,
+        { provide: TOASTR_TOKEN, useValue: toastr },
         EventRouteActivator,
+        // OR long form
+        // { provide: EventRouteActivator, useClass: EventRouteActivator },
         // long form need to provide function to use
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
         EventListResolver,
