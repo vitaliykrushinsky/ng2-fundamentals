@@ -14,6 +14,7 @@ import { CreateSessionComponent } from './events/event-details/create-session.co
 import { SessionListComponent } from './events/event-details/session-list.component';
 import { CollapsibleWellComponent } from './common/collapsible-well.component';
 import { SimpleModalComponent } from './common/simple-modal.component';
+import { UpvoteComponent } from './events/event-details/upvote.component';
 
 // OR
 // import {
@@ -23,12 +24,15 @@ import { SimpleModalComponent } from './common/simple-modal.component';
 //     EventDetailsComponent,
 //     CreateEventComponent,
 //     CreateSessionComponent,
-//     SessionListComponent
+//     SessionListComponent,
+//     UpvoteComponent,
+//     LocationValidator,
 //     // services
 //     EventService,
 //     EventRouteActivator,
 //     EventListResolver,
-//     DurationPipe
+//     DurationPipe,
+//     VoterService
 // } from './events/index'
 
 // import {
@@ -48,6 +52,7 @@ import { EventService } from './events/shared/event.service';
 import { EventRouteActivator } from './events/event-details/event-route-activator.service';
 import { EventListResolver } from './events/events-list-resolver.service';
 import { AuthService } from './user/auth.service';
+import { VoterService } from './events/event-details/voter.service';
 
 // Pipes
 import { DurationPipe } from './events/shared/duration.pipe';
@@ -58,6 +63,7 @@ import { JQ_TOKEN } from './common/jQuery.service';
 
 // Directives
 import { ModalTriggerComponent } from './common/modal-trigger.directive';
+import { LocationValidator } from './events/location-validator.directive';
 
 // Routes
 import { appRoutes } from './routes';
@@ -91,7 +97,9 @@ declare let jQuery : Object;
         CollapsibleWellComponent,
         DurationPipe,
         SimpleModalComponent,
-        ModalTriggerComponent
+        ModalTriggerComponent,
+        UpvoteComponent,
+        LocationValidator
     ],
     providers: [
         EventService,
@@ -103,7 +111,8 @@ declare let jQuery : Object;
         // long form need to provide function to use
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
         EventListResolver,
-        AuthService
+        AuthService,
+        VoterService
     ],
     bootstrap: [EventsAppComponent],
 })
