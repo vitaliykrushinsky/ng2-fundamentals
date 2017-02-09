@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 // Interface
 import { IEvent, ISession } from './../shared/event.model';
@@ -21,11 +21,17 @@ export class EventDetailsComponent implements OnInit {
     sortBy: string = 'votes';
     constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
-    ngOnInit() { 
-        this.event = this.eventService.getEventsById(+this.route.snapshot.params["id"]); // match 'events/:id'
+    ngOnInit() {
+        this.route.params.forEach((params: Params) => {
+            this.event = this.eventService.getEventsById(+params["id"]);
+            // reset state when route changes
+            this.addMode = false;
+        })
+        // this dosens't work when routing to the same component; /events/1 changes to /events/2
+        // this.event = this.eventService.getEventsById(+this.route.snapshot.params["id"]); // match 'events/:id'
     }
     addSession() {
-        this.addMode = true
+        this.addMode = true;
     }
     saveNewSession(session: ISession) {
         // find max value session id

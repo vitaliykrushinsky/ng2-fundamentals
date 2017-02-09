@@ -13,6 +13,7 @@ import { CreateEventComponent } from './events/create-event.component';
 import { CreateSessionComponent } from './events/event-details/create-session.component';
 import { SessionListComponent } from './events/event-details/session-list.component';
 import { CollapsibleWellComponent } from './common/collapsible-well.component';
+import { SimpleModalComponent } from './common/simple-modal.component';
 
 // OR
 // import {
@@ -30,6 +31,15 @@ import { CollapsibleWellComponent } from './common/collapsible-well.component';
 //     DurationPipe
 // } from './events/index'
 
+// import {
+//     JQ_TOKEN, 
+//     TOASTR_TOKEN, 
+//     Toastr,
+//     CollapsibleWellComponent,
+//     SimpleModalComponent,
+//     ModalTriggerComponent
+// } from './common/index';
+
 import { NavBarComponent } from './nav/navbar.component';
 import { Error404Component } from './errors/404.component';
 
@@ -44,13 +54,19 @@ import { DurationPipe } from './events/shared/duration.pipe';
 
 // 3-rd party services
 import { TOASTR_TOKEN, Toastr } from './common/toastr.service';
+import { JQ_TOKEN } from './common/jQuery.service';
+
+// Directives
+import { ModalTriggerComponent } from './common/modal-trigger.directive';
 
 // Routes
 import { appRoutes } from './routes';
 
 // import { AppRoutingModule } from './app.routing'; //TODO: Create app.routing
 
-declare let toastr:Toastr // tell tsc commpile that this object on global scope
+// tell tsc commpile that this object on global scope
+declare let toastr: Toastr; 
+declare let jQuery : Object;
 
 @NgModule({
     imports: [
@@ -73,11 +89,14 @@ declare let toastr:Toastr // tell tsc commpile that this object on global scope
         CreateSessionComponent,
         SessionListComponent,
         CollapsibleWellComponent,
-        DurationPipe
+        DurationPipe,
+        SimpleModalComponent,
+        ModalTriggerComponent
     ],
     providers: [
         EventService,
         { provide: TOASTR_TOKEN, useValue: toastr },
+        { provide: JQ_TOKEN, useValue: jQuery },
         EventRouteActivator,
         // OR long form
         // { provide: EventRouteActivator, useClass: EventRouteActivator },
