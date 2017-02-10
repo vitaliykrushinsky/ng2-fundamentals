@@ -2,7 +2,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 // Components
 import { EventsAppComponent } from './events-app.component';
@@ -29,8 +29,8 @@ import { UpvoteComponent } from './events/event-details/upvote.component';
 //     LocationValidator,
 //     // services
 //     EventService,
-//     EventRouteActivator,
 //     EventListResolver,
+//     EventResolver,
 //     DurationPipe,
 //     VoterService
 // } from './events/index'
@@ -49,10 +49,10 @@ import { Error404Component } from './errors/404.component';
 
 // Services
 import { EventService } from './events/shared/event.service';
-import { EventRouteActivator } from './events/event-details/event-route-activator.service';
 import { EventListResolver } from './events/events-list-resolver.service';
 import { AuthService } from './user/auth.service';
 import { VoterService } from './events/event-details/voter.service';
+import { EventResolver } from './events/event-resolver.service';
 
 // Pipes
 import { DurationPipe } from './events/shared/duration.pipe';
@@ -79,8 +79,8 @@ declare let jQuery : Object;
         BrowserModule,
         RouterModule.forRoot(appRoutes),
         FormsModule,
-        ReactiveFormsModule
-        // HttpModule
+        ReactiveFormsModule,
+        HttpModule
     
         // AppRoutingModule,
     ],
@@ -105,14 +105,11 @@ declare let jQuery : Object;
         EventService,
         { provide: TOASTR_TOKEN, useValue: toastr },
         { provide: JQ_TOKEN, useValue: jQuery },
-        EventRouteActivator,
-        // OR long form
-        // { provide: EventRouteActivator, useClass: EventRouteActivator },
-        // long form need to provide function to use
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
         EventListResolver,
         AuthService,
-        VoterService
+        VoterService,
+        EventResolver
     ],
     bootstrap: [EventsAppComponent],
 })

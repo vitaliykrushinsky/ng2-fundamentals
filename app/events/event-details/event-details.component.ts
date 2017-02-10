@@ -22,13 +22,14 @@ export class EventDetailsComponent implements OnInit {
     constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
     ngOnInit() {
-        this.route.params.forEach((params: Params) => {
-            this.event = this.eventService.getEventsById(+params["id"]);
+        this.route.data.forEach((data) => {
+            // dynamic update
+            this.event = data['event']; // grub data from route that pass resolver
+            // static update, update first time
+            // this.event = this.route.snapshot.data['event']; // grub data from route that pass resolver
             // reset state when route changes
             this.addMode = false;
         })
-        // this dosens't work when routing to the same component; /events/1 changes to /events/2
-        // this.event = this.eventService.getEventsById(+this.route.snapshot.params["id"]); // match 'events/:id'
     }
     addSession() {
         this.addMode = true;
@@ -40,7 +41,7 @@ export class EventDetailsComponent implements OnInit {
         // add session to event
         this.event.sessions.push(session);
         // update event on service
-        this.eventService.updateEvent(this.event);
+        this.eventService.saveEvent(this.event).subscribe();
         // toggle in session list mode
         this.addMode = false;
     }

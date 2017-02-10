@@ -1,5 +1,7 @@
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
+
 
 //Interface
 import { IEvent, ISession } from './event.model';
@@ -7,37 +9,38 @@ import { IEvent, ISession } from './event.model';
 @Injectable()
 export class EventService {
 
-    constructor() { }
+  constructor(private http: Http) { }
+  
     getEvents(): Observable<IEvent[]> {
-      let subject = new Subject<IEvent[]>(); // create Observable
-      setTimeout(() => {
-        subject.next(EVENTS); // pass data in Observable sream
-        subject.complete();
-      }, 50)
-      return subject;
+      return this.http.get('/api/events').map((responce: Response) => {
+        return <IEvent[]>responce.json();
+      }).catch(this.handleError)
     }
     
-    getEventsById(id:number): IEvent {
-      return EVENTS.find(function (item) {
-        return item.id === id;
-      })
-      // OR
-      // return EVENTS.find(item => item.id === id)
+    getEventsById(id:number): Observable<IEvent>  {
+      return this.http.get('/api/events/' + id).map((responce: Response) => {
+        return <IEvent>responce.json();
+      }).catch(this.handleError)
     }
   
-    saveEvent(event) {
-      event.id = 999;
-      event.session = [];
-      EVENTS.push(event);
+    // Update and Save method on server depends whether or not event object has "id""
+    saveEvent(event): Observable<IEvent> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.post('/api/events', JSON.stringify(event), options).map((response: Response) => {
+        // in this case give back data is unnecessary because we don't use it
+        return response.json();
+      }).catch(this.handleError)
     }
   
-    updateEvent(event) {
-      const foundIndex = EVENTS.findIndex(function (item) {
-        return item.id === event.id;
-      });
-      // replace old event with new event
-      EVENTS[foundIndex] = event;
-    }
+    // updateEvent(event) {
+    //   const foundIndex = EVENTS.findIndex(function (item) {
+    //     return item.id === event.id;
+    //   });
+    //   // replace old event with new event
+    //   EVENTS[foundIndex] = event;
+    // }
     
     // searchSessions(searchTerm: string) {
     //   var term = searchTerm.toLocaleLowerCase();
@@ -60,23 +63,32 @@ export class EventService {
     // }
   
     searchSessions(searchTerm: string) {
-      let term = searchTerm.toLocaleLowerCase();
-      let results: ISession[] = [];
+      return this.http.get('/api/sessions/search?search=' + searchTerm).map((responce: Response) => {
+        return responce.json();
+      }).catch(this.handleError)
 
-      EVENTS.forEach(event => {
-        var mathchingSession = event.sessions.filter(session => {
-          return session.name.toLocaleLowerCase().indexOf(term) > -1
-        });
-        mathchingSession.map((session:any) => {
-          return session.eventId = event.id;
-        });
-        results = results.concat(mathchingSession);
-      })
-      var emitter = new EventEmitter(true);
-      setTimeout(() => {
-        emitter.emit(results);
-      }, 100);
-      return emitter;
+      // Local API
+      // let term = searchTerm.toLocaleLowerCase();
+      // let results: ISession[] = [];
+
+      // EVENTS.forEach(event => {
+      //   var mathchingSession = event.sessions.filter(session => {
+      //     return session.name.toLocaleLowerCase().indexOf(term) > -1
+      //   });
+      //   mathchingSession.map((session:any) => {
+      //     return session.eventId = event.id;
+      //   });
+      //   results = results.concat(mathchingSession);
+      // })
+      // var emitter = new EventEmitter(true);
+      // setTimeout(() => {
+      //   emitter.emit(results);
+      // }, 100);
+      // return emitter;
+    }
+  
+    private handleError(error: Response) {
+      return Observable.throw(error.statusText)
     }
 }
 

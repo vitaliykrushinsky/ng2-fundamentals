@@ -1,3 +1,4 @@
+import { IEvent } from './shared/event.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventService } from './shared/event.service';
@@ -21,10 +22,12 @@ export class CreateEventComponent implements OnInit {
     ngOnInit() { }
 
     saveEvent(formValues) {
-        this.isDirty = false; 
-        this.eventService.saveEvent(formValues);
-        this.router.navigate(['/events']);
-        console.log(formValues);
+        this.eventService.saveEvent(formValues).subscribe((event: IEvent) => {
+            // event data is don't need for us
+            this.router.navigate(['/events']);
+            this.isDirty = false; 
+            console.log(formValues);
+        })
     }
 
     cancel() {

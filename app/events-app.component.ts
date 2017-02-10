@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './user/auth.service';
 
 @Component({
     moduleId: module.id,
@@ -8,4 +9,10 @@ import { Component } from '@angular/core';
     <router-outlet></router-outlet>
     `
 })
-export class EventsAppComponent { }
+export class EventsAppComponent implements OnInit { 
+    constructor(private authService: AuthService) { }
+    ngOnInit() {
+        // check if user logged on the server when user refresh browser
+        this.authService.checkAuthenticationStatus();
+    }
+}
