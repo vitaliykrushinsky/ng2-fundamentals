@@ -5,5 +5,7 @@ typings
 .vscode/
 debug.log
 readme.txt
+aot
+dist
 
 
